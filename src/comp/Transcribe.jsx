@@ -1,8 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import {TrendGraph} from "./TrendGraph.jsx";
+import jsonObject from "./example.json";
 
-const TranscribeAudio = ({url}) => {
+const TrendAnalyzer = ({url}) => {
     const [showTextbox, setShowTextbox] = useState(false);
     const [transcription, setTranscription] = useState('');
 
@@ -38,15 +40,15 @@ const TranscribeAudio = ({url}) => {
 
     return (
         <div>
-            <button onClick={handleClick}>Transcribe</button>
+            <button onClick={handleClick}>Analyze</button>
             <br />
-            {showTextbox && <textarea rows="4" cols="50" value={transcription} readOnly/>}
+            {showTextbox && <TrendGraph trends={jsonObject}/>}
         </div>
     );
 };
 
-TranscribeAudio.propTypes = {
+TrendAnalyzer.propTypes = {
     url: PropTypes.string,
 };
 
-export default TranscribeAudio;
+export default TrendAnalyzer;

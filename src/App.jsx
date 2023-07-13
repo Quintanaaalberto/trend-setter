@@ -4,7 +4,7 @@
     // eslint-disable-next-line no-unused-vars
     import React from "react";
     import AudioRecorder from "./comp/AudioRecorder.jsx";
-    import Transcribe from "./comp/Transcribe.jsx"
+    import TrendAnalyzer from "./comp/Transcribe.jsx"
     import Summarize from "./comp/Summarize.jsx";
 
     function App() {
@@ -51,7 +51,7 @@
                           </a>
 
 
-                      <Transcribe url={file}/>
+                      <TrendAnalyzer url={file}/>
 
                     </>
                   }

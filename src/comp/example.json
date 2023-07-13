@@ -1,0 +1,27 @@
+{
+  "Renewable Energy": {
+    "impact": 7,
+    "time_of_adaptation": 5,
+    "cost_of_implementation": 6
+  },
+  "Energy Efficiency": {
+    "impact": 8,
+    "time_of_adaptation": 4,
+    "cost_of_implementation": 5
+  },
+  "Electrification of Transport": {
+    "impact": 9,
+    "time_of_adaptation": 6,
+    "cost_of_implementation": 7
+  },
+  "Grid Parity of Solar and Wind": {
+    "impact": 8,
+    "time_of_adaptation": 5,
+    "cost_of_implementation": 6
+  },
+  "Energy Storage": {
+    "impact": 7,
+    "time_of_adaptation": 5,
+    "cost_of_implementation": 8
+  }
+}
