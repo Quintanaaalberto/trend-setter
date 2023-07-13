@@ -14,7 +14,7 @@ const TranscribeAudio = ({url}) => {
             .then(response => response.blob())
             .then(blob => {
                 // Convert the blob to a File object
-                const file = new File([blob], 'audio.wav', {type: blob.type});
+                const file = new File([blob], 'folder.zip', {type: blob.type});
 
                 // Create a FormData object and append the file
                 const formData = new FormData();

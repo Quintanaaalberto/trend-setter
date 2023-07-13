@@ -1,107 +1,38 @@
-// Versión 3.0
-
-// eslint-disable-next-line no-unused-vars
-// import React, { useRef, useState } from 'react';
-// import PropTypes from "prop-types";
-
-// export const UploadButton = ({ tagText = "UPLOAD A FILE", hover }) => {
-//     const fileInputRef = useRef(null);
-//     const [selectedFile, setSelectedFile] = useState(null);
-
-//     const handleClick = () => {
-//         fileInputRef.current.click();
-//     };
-
-//     const handleFileChange = (event) => {
-//         const file = event.target.files[0];
-//         setSelectedFile(file);
-
-//         const reader = new FileReader();
-//         reader.onload = () => {
-//             const fileContent = reader.result;
-//             // Aquí puedes hacer algo con el contenido del archivo, como mostrarlo en la interfaz de usuario.
-//             console.log(fileContent);
-//         };
-//         reader.readAsText(file);
-//         // Llama a una función de exportación con el archivo seleccionado
-//         exportFile(file);
-
-
-
-//     };
-//     const exportFile = (file) => {
-//         // Realiza acciones adicionales con el archivo seleccionado en otra parte del código
-//         console.log('Archivo exportado:', file);
-//         // Puedes pasar el archivo a otro componente, guardar en el estado global, enviar a través de una solicitud AJAX, etc.
-//     };
-
-//     return (
-//         <div>
-//             <button onClick={handleClick} className="tag">
-//                 <div className="tag-text">{tagText}</div>
-//             </button>
-
-//             <input
-//                 ref={fileInputRef}
-//                 type="file"
-//                 accept=".mp3, .mp4, .svg, .wav, .flac, .aac, .m4a, .ogg, .aiff, .aif, .weba"
-//                 style={{ display: 'none' }}
-//                 onChange={handleFileChange}
-//             />
-//             {selectedFile && (
-//                 <div >
-//                     <h4>Selected File:</h4>
-//                     <p className={"fileDisplay"}>{selectedFile.name}</p>
-//                     {/* <p>Tipo: {selectedFile.type}</p>
-//                         <p>Tamaño: {selectedFile.size} bytes</p> */}
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// UploadButton.propTypes = {
-//     text: PropTypes.string,
-//     tagText: PropTypes.string,
-//     hover: PropTypes.bool,
-// };
-
-
-// VERSIÓN 4.0 
+// VERSIÓN 4.0
 // eslint-disable-next-line no-unused-vars
 import React, { useRef, useState } from 'react';
 import PropTypes from "prop-types";
+import JSZip from 'jszip';
 
 export const UploadButton = ({ tagText = "UPLOAD A FILE", onFileUpload }) => {
     const fileInputRef = useRef(null);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [fileURL, setFileURL] = useState('');
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
     const handleClick = () => {
+        console.log('Button clicked');
         fileInputRef.current.click();
     };
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+    const handleFileChange = async (event) => {
+        console.log('Handling file change');
+        const files = Array.from(event.target.files); // convert FileList to Array
+        console.log(`Selected files: ${files.map(file => file.name).join(', ')}`);
+        setSelectedFiles(files);
 
-        const reader = new FileReader();
-        reader.onload = () => {
-            const fileContent = reader.result;
-            // Aquí puedes hacer algo con el contenido del archivo, como mostrarlo en la interfaz de usuario.
-            console.log(fileContent);
-        };
-        reader.readAsText(file);
+        const zip = new JSZip();
+        console.log('Creating zip file');
+        files.forEach((file, index) => {
+            console.log(`Adding file ${file.name} to zip`);
+            zip.file(file.name, file);
+        });
 
-        // Guarda el archivo como una URL
-        const fileURL = URL.createObjectURL(file);
-        setFileURL(fileURL);
-
-
-        // Call the passed in prop function
-        onFileUpload(fileURL);
+        console.log('Generating zip file');
+        const content = await zip.generateAsync({type:"blob"});
+        console.log('Zip file generated');
+        const blobURL = URL.createObjectURL(content);
+        console.log(`Blob URL: ${blobURL}`);
+        onFileUpload(blobURL); // Pass the URL of the zip file
     };
-
 
     return (
         <div>
@@ -112,15 +43,18 @@ export const UploadButton = ({ tagText = "UPLOAD A FILE", onFileUpload }) => {
             <input
                 ref={fileInputRef}
                 type="file"
-                accept=".mp3, .mp4, .svg, .wav, .flac, .aac, .m4a, .ogg, .aiff, .aif, .weba"
+                accept=".zip"
+                multiple
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
             />
 
-            {selectedFile && (
+            {selectedFiles && (
                 <div>
-                    <h4>Selected File:</h4>
-                    <p className={"fileDisplay"}>{selectedFile.name}</p>
+                    <h4>Selected Files:</h4>
+                    {selectedFiles.map((file, index) =>
+                        <p key={index} className={"fileDisplay"}>{file.name}</p>
+                    )}
                 </div>
             )}
         </div>
@@ -131,3 +65,4 @@ UploadButton.propTypes = {
     tagText: PropTypes.string,
     onFileUpload: PropTypes.func,
 };
+

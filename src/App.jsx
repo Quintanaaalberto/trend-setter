@@ -8,13 +8,11 @@
     import Summarize from "./comp/Summarize.jsx";
 
     function App() {
-        const [audio, setAudio] = useState(null);
         const [file, setFile] = useState(null);
-        const handleAudioUpdate = (newAudio) => {
-            setAudio(newAudio);
-        };
+
         const handleFileUpdate = (newFile) => {
           setFile(newFile);
+          console.log(`File updated: ${newFile}`);
         };
 
 
@@ -25,46 +23,38 @@
                   <img src="src/assets/logo-ciclab.png" className="logo ciclab" alt="CICLAB logo" />
                 </a>
               </div>
-              <h1>AI whisperer v2</h1>
-              <h2>LLM powered voice transcription</h2>
+              <h1>Trend Setter</h1>
+              <h2>AI powered tren analyzer</h2>
               <h5>by:
-                <br /> A. Gómez, M. Hervás
+                <br /> A. Gómez, MC. Urgel
                 <br /> M. Liz, A. Quintana
+                <br />
+                <br /> &
+                <br />
+                <br /> O. Arroyo
               </h5>
 
 
               <div className="card">
-                  {!audio &&
+
                     <UploadButton onFileUpload={handleFileUpdate}/>
-                  }
-                  {(!audio && !file) && <><a>or</a></> }
-                  {!file &&
-                    <AudioRecorder onAudioUpdate={handleAudioUpdate}/>
-                  }
+
 
                   {/*the following code corresponds to the apparition of the transcribe button modified according to the
                    button pressed previously*/}
-                  {(audio || file) && <div>
-                      {audio && <>
-                          <a>Recording successful</a>
-                          <br/>
-                          <a download href={audio}>
-                              -- Download Recording --
-                          </a>
-                      </>
-                      }
-                      {file && <>
+                  {(file) &&
+                      <>
                           <a>Upload succesful </a>
                           <br/>
                           <a download href={file}>
                               -- Download File --
                           </a>
-                      </>
-                      }
-                      <Transcribe url={file || audio}/>
-                      <a>Options:</a>
-                      <Summarize url={file || audio}/>
-                  </div>}
+
+
+                      <Transcribe url={file}/>
+
+                    </>
+                  }
 
 
               </div>
