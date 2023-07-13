@@ -7,8 +7,9 @@ import {
     Filler,
     Tooltip,
     Legend,
+    LinearScale
 } from 'chart.js';
-import { Radar } from 'react-chartjs-2';
+import { Radar, Bubble } from 'react-chartjs-2';
 
 ChartJS.register(
     RadialLinearScale,
@@ -16,63 +17,53 @@ ChartJS.register(
     LineElement,
     Filler,
     Tooltip,
-    Legend
+    Legend,
+    LinearScale
 );
+
+
+
 
 export function TrendGraph({ trends }) {
     const trendKeys = Object.keys(trends);
     const [currentTrend, setCurrentTrend] = useState(trendKeys[0]);
 
-    const colors = [
-        'rgba(255, 99, 132, 0.2)', // red
-        'rgba(54, 162, 235, 0.2)', // blue
-        'rgba(255, 206, 86, 0.2)', // yellow
-        'rgba(75, 192, 192, 0.2)', // green
-        'rgba(153, 102, 255, 0.2)' // purple
-    ];
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true,
+            }
+        },
+    };
 
-    const borderColors = [
-        'rgba(255, 99, 132, 1)', // red
-        'rgba(54, 162, 235, 1)', // blue
-        'rgba(255, 206, 86, 1)', // yellow
-        'rgba(75, 192, 192, 1)', // green
-        'rgba(153, 102, 255, 1)' // purple
-    ];
-
-    // Function to shuffle an array
-    function shuffle(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    }
-
-    const shuffledColors = shuffle(colors);
-    const shuffledBorderColors = shuffle(borderColors);
-
+    const datasets = Object.keys(trends).map((keyword) => ({
+        label: keyword,
+        data: [
+            {
+                x: trends[keyword].impacto,
+                y: trends[keyword].tiempo_adopcion,
+                r: trends[keyword].estimación_inversion,
+            },
+        ],
+        backgroundColor: "aquamarine",
+    }));
 
     const data_full = {
-        labels: Object.keys(trends[trendKeys[0]]), // Assuming all trends have the same keys
-        datasets: trendKeys.map((trendKey) => ({
-            label: trendKey,
-            data: Object.values(trends[trendKey]),
-            backgroundColor:         'rgba(75, 192, 192, 0.2)', // green
-            borderColor: 'rgba(75, 192, 192, 1)', // green
-            borderWidth: 1,
-        })),
+        datasets: datasets,
     };
+
+
+
+    // const data_full = {
+    //     labels: Object.keys(trends[trendKeys[0]]), // Assuming all trends have the same keys
+    //     datasets: trendKeys.map((trendKey) => ({
+    //         label: trendKey,
+    //         data: Object.values(trends[trendKey]),
+    //         backgroundColor: 'rgba(75, 192, 192, 0.2)', // green
+    //         borderColor: 'rgba(75, 192, 192, 1)', // green
+    //         borderWidth: 1,
+    //     })),
+    // };
 
     const data = {
         labels: Object.keys(trends[currentTrend]),
@@ -102,7 +93,7 @@ export function TrendGraph({ trends }) {
     return (
         <div>
             <h1>Trend Graph</h1>
-            <Radar data={data_full}/>
+            <Bubble options={options} data={data_full}/>
             <h1>{currentTrend}</h1>
             <button onClick={handlePrevClick}>Previous Trend</button>
             <button onClick={handleNextClick}>Next Trend</button>

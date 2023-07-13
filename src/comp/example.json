@@ -1,27 +1,43 @@
 {
-  "Renewable Energy": {
-    "impact": 7,
-    "time_of_adaptation": 5,
-    "cost_of_implementation": 6
-  },
-  "Energy Efficiency": {
-    "impact": 8,
-    "time_of_adaptation": 4,
-    "cost_of_implementation": 5
-  },
-  "Electrification of Transport": {
-    "impact": 9,
-    "time_of_adaptation": 6,
-    "cost_of_implementation": 7
-  },
-  "Grid Parity of Solar and Wind": {
-    "impact": 8,
-    "time_of_adaptation": 5,
-    "cost_of_implementation": 6
-  },
-  "Energy Storage": {
-    "impact": 7,
-    "time_of_adaptation": 5,
-    "cost_of_implementation": 8
+    "hidrogeno": {
+      "impacto": 9,
+      "tiempo_adopcion": 8,
+      "estimacion_inversion": 9
+    },
+    "hibridacion_energias_renovables": {
+      "impacto": 8,
+      "tiempo_adopcion": 7,
+      "estimacion_inversion": 8
+    },
+    "digitalizacion_de_redes": {
+      "impacto": 8,
+      "tiempo_adopcion": 6,
+      "estimacion_inversion": 7
+    },
+    "baterias": {
+      "impacto": 7,
+      "tiempo_adopcion": 6,
+      "estimacion_inversion": 8
+    },
+    "autoconsumo": {
+      "impacto": 6,
+      "tiempo_adopcion": 5,
+      "estimacion_inversion": 6
+    },
+    "sustitucion_petróleo_gas": {
+      "impacto": 10,
+      "tiempo_adopcion": 10,
+      "estimacion_inversion": 10
+    },
+    "vehiculo_electrico": {
+      "impacto": 9,
+      "tiempo_adopcion": 8,
+      "estimacion_inversion": 9
+    },
+    "electrificacion_gasolineras": {
+      "impacto": 7,
+      "tiempo_adopcion": 7,
+      "estimacion_inversion": 7
+    }
   }
-}
+
